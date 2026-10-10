@@ -4,7 +4,9 @@ import Tag from './Tag.astro';
 import StarRating from './StarRating.astro';
 import ArrowRight from '../assets/icons/arrow-right.svg';
 
+/** Public data contract for a game card. */
 interface Props {
+    /** Game details displayed and linked from the card. */
     game: Game;
 }
 

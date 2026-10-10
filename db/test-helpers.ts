@@ -5,7 +5,11 @@ import { createDatabaseConnection, executeMigrationQueries, type Database } from
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-/** Create a fresh in-memory Node SQLite database with the schema migrated in. */
+/**
+ * Create an isolated in-memory database with all migrations applied.
+ *
+ * @returns The migrated Drizzle client for use in data-layer tests.
+ */
 export async function createTestDatabase(): Promise<Database> {
     const { db, sqlite } = createDatabaseConnection(':memory:');
     await migrate(

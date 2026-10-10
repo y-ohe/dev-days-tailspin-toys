@@ -118,6 +118,10 @@ npm run lint
 
 ESLint is also run automatically in CI on pull requests to `main`.
 
+## Coding standards
+
+See [`.github/copilot-instructions.md`](.github/copilot-instructions.md) and the focused guides in [`.github/instructions/`](.github/instructions/). Comments should explain intent and non-obvious decisions rather than restate code. Exported functions in `db/` and `src/lib/` document their purpose, parameters, and return values; reusable Astro components document their `Props` contracts. TypeScript formatting uses single quotes, semicolons, and trailing commas in multiline structures. ESLint enforces 4-space indentation in `db/`, `src/`, Astro scripts, and the Drizzle/Vitest configs, and 2-space indentation in `e2e-tests/` and the Playwright config. Documentation comments are reviewed by contributors; ESLint does not verify their completeness or accuracy.
+
 ## Type checking
 
 The project runs on **TypeScript 7** (the native Go compiler, `tsgo`) for type checking, adopted side-by-side via the [`@typescript/native-preview`](https://www.npmjs.com/package/@typescript/native-preview) package. The classic `typescript` package is intentionally kept at v6 so ESLint + `typescript-eslint` and `astro check` keep working unchanged — TypeScript 7's programmatic API isn't ready for those tools yet.

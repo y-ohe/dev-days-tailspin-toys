@@ -1,8 +1,9 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 
+/** Public options for the styled panel and its root element. */
 interface Props extends HTMLAttributes<'div'> {
-    /** HTML element to render the panel as (e.g. 'div', 'section', 'article'). */
+    /** Semantic HTML element used for the panel. */
     as?: 'div' | 'section' | 'article' | 'aside';
 }
 
