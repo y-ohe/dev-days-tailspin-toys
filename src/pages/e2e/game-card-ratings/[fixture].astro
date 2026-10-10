@@ -1,0 +1,29 @@
+---
+import type { GetStaticPaths } from 'astro';
+import GameCard from '../../../components/GameCard.astro';
+import Layout from '../../../layouts/Layout.astro';
+import type { Game } from '../../../types/game';
+
+export const prerender = true;
+
+export const getStaticPaths = (() => (
+    import.meta.env.MODE === 'e2e'
+        ? [{ params: { fixture: 'ratings' } }]
+        : []
+)) satisfies GetStaticPaths;
+
+const games: Game[] = [
+    { id: 9001, title: 'Rated 4.2', description: 'Fixture game', publisher: null, category: null, starRating: 4.2 },
+    { id: 9002, title: 'Rated zero', description: 'Fixture game', publisher: null, category: null, starRating: 0 },
+    { id: 9003, title: 'Rated five', description: 'Fixture game', publisher: null, category: null, starRating: 5 },
+    { id: 9004, title: 'Not rated', description: 'Fixture game', publisher: null, category: null, starRating: null },
+];
+---
+
+<Layout title="Game card rating fixtures - Tailspin Toys">
+    <main>
+        <div data-testid="rating-fixture">
+            {games.map((game) => <GameCard game={game} />)}
+        </div>
+    </main>
+</Layout>
