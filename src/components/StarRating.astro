@@ -1,8 +1,11 @@
 ---
 import { clampRating, formatStarRating } from '../lib/ratings';
 
+/** Public display options for a game's star rating. */
 interface Props {
+    /** Rating value, or `null` when the game has not been rated. */
     rating: number | null;
+    /** Whether to show the unrated message when `rating` is `null`. */
     showUnrated?: boolean;
 }
 

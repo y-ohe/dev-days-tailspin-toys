@@ -59,7 +59,13 @@ function createRemoteCallback(sqlite: DatabaseSync): AsyncRemoteCallback {
     };
 }
 
-/** Run generated migration statements atomically through Node's SQLite driver. */
+/**
+ * Execute generated migration statements in one SQLite transaction.
+ *
+ * @param sqlite - Synchronous SQLite connection receiving the statements.
+ * @param queries - SQL statements generated for the migration.
+ * @returns Nothing; throws if a statement fails and rolls back the transaction.
+ */
 export function executeMigrationQueries(sqlite: DatabaseSync, queries: string[]): void {
     sqlite.exec('BEGIN');
     try {
@@ -73,12 +79,22 @@ export function executeMigrationQueries(sqlite: DatabaseSync, queries: string[])
     }
 }
 
-/** Create a Drizzle client for the given local SQLite connection URL. */
+/**
+ * Create a Drizzle client for a local SQLite database.
+ *
+ * @param url - Local `file:` URL or `:memory:`; defaults to `DATABASE_URL` or `tailspin.db`.
+ * @returns The Drizzle database client.
+ */
 export function createDatabase(url: string = process.env.DATABASE_URL ?? DEFAULT_DATABASE_URL): Database {
     return createDatabaseConnection(url).db;
 }
 
-/** Create the Drizzle client and its Node SQLite connection for migration workflows. */
+/**
+ * Create a Drizzle client and its underlying Node SQLite connection.
+ *
+ * @param url - Local `file:` URL or `:memory:`; defaults to `DATABASE_URL` or `tailspin.db`.
+ * @returns Both the Drizzle client and the synchronous SQLite connection.
+ */
 export function createDatabaseConnection(
     url: string = process.env.DATABASE_URL ?? DEFAULT_DATABASE_URL,
 ): DatabaseConnection {
@@ -88,7 +104,11 @@ export function createDatabaseConnection(
     return { db, sqlite };
 }
 
-/** Shared singleton database client used by pages at build time. */
+/**
+ * Return the shared database client, creating it on first use.
+ *
+ * @returns The cached Drizzle database client.
+ */
 export function getDatabase(): Database {
     if (!cachedDb) {
         cachedDb = createDatabase();

@@ -39,5 +39,23 @@ export default [
     languageOptions: {
       parser: tseslint.parser,
     },
+    rules: {
+      indent: ["error", 2, { SwitchCase: 1 }],
+      quotes: ["error", "single", { avoidEscape: true }],
+      semi: ["error", "always"],
+      "comma-dangle": ["error", "always-multiline"],
+    },
+  },
+  {
+    files: ["db/**/*.ts", "src/**/*.ts", "drizzle.config.ts", "vitest.config.ts"],
+    rules: {
+      indent: ["error", 4, { SwitchCase: 1 }],
+    },
+  },
+  {
+    files: ["**/*.astro"],
+    rules: {
+      indent: "off",
+    },
   },
 ];

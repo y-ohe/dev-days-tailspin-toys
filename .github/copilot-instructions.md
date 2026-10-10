@@ -36,6 +36,10 @@ This is a crowdfunding platform for games with a developer theme. The applicatio
 
 - Use TypeScript with explicit types for function parameters and return values, especially in the data layer (`db/`, `src/lib/`)
 - Frontend code (TypeScript, Astro) must pass ESLint checks (`npm run lint`)
+- In TypeScript files, use single quotes, semicolons, and trailing commas in multiline structures. Use 4-space indentation in `db/`, `src/`, Astro scripts, and the Drizzle/Vitest configs; use 2 spaces in `e2e-tests/` and the Playwright config. ESLint enforces these conventions.
+- Comments should explain intent, rationale, or non-obvious decisions—not restate what the code does. Keep comments accurate as code changes; update or remove stale comments in the same change.
+- Add TSDoc/JSDoc to every exported function in `db/` and `src/lib/`. Describe its purpose, each parameter (including injectable `db` arguments), and its return value. See [`drizzle.instructions.md`](instructions/drizzle.instructions.md).
+- Document each reusable Astro component's `Props` interface and its public properties with concise TSDoc. See [`astro.instructions.md`](instructions/astro.instructions.md).
 
 ### Data Layer Patterns (Drizzle + Node SQLite)
 

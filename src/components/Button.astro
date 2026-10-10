@@ -1,16 +1,17 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 
+/** Public options for the button or link rendered by this component. */
 interface Props extends Omit<HTMLAttributes<'button'>, 'type'> {
     /** Visual style of the button. */
     variant?: 'solid' | 'gradient';
-    /** Padding scale. */
+    /** Controls the button's padding and text size. */
     size?: 'sm' | 'md';
-    /** When provided, renders an anchor (`<a>`) instead of a `<button>`. */
+    /** Destination URL; when set, renders an anchor instead of a button. */
     href?: string;
-    /** Button type when rendered as a `<button>`. */
+    /** Native button type; ignored when `href` renders an anchor. */
     type?: 'button' | 'submit' | 'reset';
-    /** Stretch the button to fill its container. */
+    /** Whether the control should fill its container's width. */
     fullWidth?: boolean;
 }
 

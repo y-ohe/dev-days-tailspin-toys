@@ -50,19 +50,35 @@ function baseGamesQuery(db: Database) {
         .leftJoin(publishers, eq(games.publisherId, publishers.id));
 }
 
-/** All games ordered by title. */
+/**
+ * Fetch all games with category and publisher details, ordered by title.
+ *
+ * @param db - Production or test database used for the query.
+ * @returns All matching games in title order.
+ */
 export async function getAllGames(db: Database): Promise<Game[]> {
     const rows = await baseGamesQuery(db).orderBy(asc(games.title));
     return rows.map(mapGame);
 }
 
-/** All game ids ordered by title. */
+/**
+ * Fetch game IDs in title order.
+ *
+ * @param db - Production or test database used for the query.
+ * @returns All game IDs in title order.
+ */
 export async function getAllGameIds(db: Database): Promise<number[]> {
     const rows = await db.select({ id: games.id }).from(games).orderBy(asc(games.title));
     return rows.map((row) => row.id);
 }
 
-/** A single game by id, or null when it does not exist. */
+/**
+ * Fetch one game with category and publisher details.
+ *
+ * @param db - Production or test database used for the query.
+ * @param id - ID of the game to fetch.
+ * @returns The matching game, or `null` if the ID does not exist.
+ */
 export async function getGameById(db: Database, id: number): Promise<Game | null> {
     const row = await baseGamesQuery(db).where(eq(games.id, id)).get();
     return row ? mapGame(row) : null;
