@@ -30,7 +30,8 @@
 
 > [!NOTE]
 > * **設定適用済み**: YAML や MCP 等の既知の初期設定・修正はあらかじめ適用されています（参加者による事前パッチ適用は不要です）。
-> * **演習範囲**: 星評価の表示、カスタム指示の更新、フィルター機能、Canvas などの演習の完成コードは含まれていません（演習の中で実装します）。
+> * **演習範囲**: カスタム指示の更新、フィルター機能、Canvas などの演習の完成コードは含まれていません（演習の中で実装します）。
+> * **星評価**: ゲームカードには5点満点の星評価を表示し、未評価のゲームには「No rating yet」と表示します。
 
 ---
 
@@ -52,6 +53,7 @@ Tailspin Toys is a crowdfunding platform for games with a developer theme. The p
 - **Tailwind CSS v4** — styling via utility classes (dark theme).
 - **Vitest** — unit tests for the data layer and pure transforms.
 - **Playwright** — end-to-end tests run against the built static site.
+- **Game ratings** — game cards show the five-point star rating; games without a rating show “No rating yet.”
 
 The database is migrated and seeded automatically before `dev`/`build` (via the `predev`/`prebuild` npm scripts) and is written to the gitignored `tailspin.db` file.
 
