@@ -147,6 +147,16 @@ This project ships Copilot customizations to assist with quality assurance:
 
 The shared **Database Explorer** canvas (`.github/extensions/database-explorer/`) provides a small UI and agent actions for browsing the project's SQLite tables and running one read-only `SELECT` or `WITH` query at a time. It uses the database at `.data/tailspin.db` (or `DATABASE_URL` when set), so run `npm run db:setup` before opening it in a fresh checkout.
 
+### Issue Priority Kanban Canvas
+
+The shared **Issue Priority Kanban** canvas (`.github/extensions/priority-kanban/`) fetches the repository's current open issues from GitHub and displays the top three separately from the remaining issues. To open it in another Copilot session:
+
+1. Open a new Copilot session for this repository with `.github/extensions/priority-kanban/extension.mjs` available.
+2. If the extension was just added or updated in an existing CLI process, run `extensions_reload` to discover it.
+3. Open the `priority-kanban` canvas (for example, with `open_canvas({ canvasId: "priority-kanban" })`) and use **Issueを再取得** to refresh the board.
+
+Each issue card has a one-time button that adds the full issue number, title, URL, and body to that session's conversation. The agent is instructed to acknowledge receipt once without starting implementation or creating another session. Sent issue numbers are stored in that session's workspace, survive refreshes, and remain independent in other sessions. Do not press an add button when you only want to inspect the issue; use its GitHub link instead.
+
 ### PR Readiness Agent
 
 The **PR Readiness** agent (`.github/agents/pr-readiness.md`) is a pre-PR quality gate. Invoke it before opening a pull request to:
