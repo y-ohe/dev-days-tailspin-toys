@@ -26,7 +26,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:4322',
+    baseURL: `http://127.0.0.1:${process.env.FILTER_E2E_PORT ?? '4322'}`,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -54,8 +54,8 @@ export default defineConfig({
 
   /* Build the static site and serve it before starting the tests */
   webServer: {
-    command: 'npm run build -- --mode e2e && npm run preview -- --port 4322 --host 127.0.0.1',
-    url: 'http://localhost:4322',
+    command: 'node scripts/filter-e2e-web-server.mjs',
+    url: `http://127.0.0.1:${process.env.FILTER_E2E_PORT ?? '4322'}`,
     reuseExistingServer: false,
     timeout: 120 * 1000, // 2 minutes to allow for build + seed
   },
