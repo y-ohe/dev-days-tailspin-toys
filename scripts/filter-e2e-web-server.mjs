@@ -1,7 +1,6 @@
 import { spawn, spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
-import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -80,8 +79,8 @@ function main() {
     const databasePath = resolve(databaseUrl.slice('file:'.length));
     if (
         databasePath === resolve(repositoryRoot, 'tailspin.db') ||
-        !basename(temporaryDirectory).startsWith('tailspin-filter-e2e-') ||
-        !isInsideDirectory(resolve(tmpdir()), temporaryDirectory) ||
+        !basename(temporaryDirectory).startsWith('.tailspin-filter-e2e-') ||
+        !isInsideDirectory(repositoryRoot, temporaryDirectory) ||
         !isInsideDirectory(temporaryDirectory, databasePath)
     ) {
         throw new Error('Refusing to use the regular database or a path outside the test directory.');

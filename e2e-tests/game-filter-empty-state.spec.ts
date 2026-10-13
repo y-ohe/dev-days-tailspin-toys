@@ -1,6 +1,5 @@
 import { DatabaseSync } from 'node:sqlite';
 import { basename, isAbsolute, relative, resolve, sep } from 'node:path';
-import { tmpdir } from 'node:os';
 import { test, expect } from '@playwright/test';
 
 interface FixtureDatabaseCounts {
@@ -37,8 +36,8 @@ function inspectFixtureDatabase(): FixtureDatabaseCounts {
   const pathFromTemporaryDirectory = relative(resolve(temporaryDirectory), databasePath);
   if (
     databasePath === resolve(process.cwd(), 'tailspin.db') ||
-    !basename(temporaryDirectory).startsWith('tailspin-filter-e2e-') ||
-    !isInsideDirectory(resolve(tmpdir()), resolve(temporaryDirectory)) ||
+    !basename(temporaryDirectory).startsWith('.tailspin-filter-e2e-') ||
+    !isInsideDirectory(process.cwd(), resolve(temporaryDirectory)) ||
     pathFromTemporaryDirectory === '' ||
     pathFromTemporaryDirectory === '..' ||
     pathFromTemporaryDirectory.startsWith(`..${sep}`) ||

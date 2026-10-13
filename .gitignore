@@ -7,6 +7,9 @@ dist/
 # generated types
 .astro/
 
+# isolated Playwright E2E artifacts
+/.tailspin-filter-e2e-*/
+
 # dependencies
 node_modules/
 

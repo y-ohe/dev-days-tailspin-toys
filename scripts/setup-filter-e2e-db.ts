@@ -1,7 +1,6 @@
 import { migrate } from 'drizzle-orm/sqlite-proxy/migrator';
 import { fileURLToPath } from 'node:url';
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
-import { tmpdir } from 'node:os';
 import { executeMigrationQueries, createDatabaseConnection } from '../src/lib/db';
 import { seedDatabase } from '../db/seed';
 
@@ -41,8 +40,8 @@ async function prepareDatabase(): Promise<void> {
   const databasePath = resolve(databaseUrl.slice('file:'.length));
   if (
     databasePath === defaultDatabasePath ||
-    !basename(temporaryDirectory).startsWith('tailspin-filter-e2e-') ||
-    !isInsideDirectory(resolve(tmpdir()), temporaryDirectory) ||
+    !basename(temporaryDirectory).startsWith('.tailspin-filter-e2e-') ||
+    !isInsideDirectory(repositoryRoot, temporaryDirectory) ||
     !isInsideDirectory(temporaryDirectory, databasePath)
   ) {
     throw new Error('Refusing to write outside the dedicated filter E2E temporary directory.');

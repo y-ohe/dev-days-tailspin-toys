@@ -1,13 +1,12 @@
 import { spawn } from 'node:child_process';
 import { mkdtempSync, mkdirSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'node:net';
 
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const playwrightCli = fileURLToPath(import.meta.resolve('@playwright/test/cli'));
-const temporaryDirectory = mkdtempSync(join(tmpdir(), 'tailspin-filter-e2e-'));
+const temporaryDirectory = mkdtempSync(join(repositoryRoot, '.tailspin-filter-e2e-'));
 const activeChildren = new Set();
 
 function availablePort() {
