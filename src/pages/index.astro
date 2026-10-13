@@ -45,6 +45,18 @@ const publishers = [...publishersById.values()].sort((a, b) => a.name.localeComp
         </h3>
 
         <div class="grid gap-6 md:grid-cols-2">
+          <div class="md:col-span-2">
+            <label for="game-title-search" class="mb-3 block text-sm font-medium text-slate-200">
+              Search games by title
+            </label>
+            <input
+              id="game-title-search"
+              type="search"
+              class="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              data-testid="game-title-search"
+            />
+          </div>
+
           <fieldset>
             <legend class="mb-3 text-sm font-medium text-slate-200">Categories</legend>
             <div class="flex flex-wrap gap-3">
@@ -124,6 +136,7 @@ const publishers = [...publishersById.values()].sort((a, b) => a.name.localeComp
   const categoryCheckboxes = Array.from(
       document.querySelectorAll<HTMLInputElement>('input[name="category"]'),
   );
+  const titleSearch = document.querySelector<HTMLInputElement>('#game-title-search');
   const publisherFilter = document.querySelector<HTMLSelectElement>('#publisher-filter');
   const clearFiltersButton = document.querySelector<HTMLButtonElement>(
       '[data-testid="clear-filters"]',
@@ -135,7 +148,14 @@ const publishers = [...publishersById.values()].sort((a, b) => a.name.localeComp
       document.querySelectorAll<HTMLElement>('[data-testid="game-card"]'),
   );
 
-  if (!publisherFilter || !clearFiltersButton || !resultCount || !emptyState || !emptyStateMessage) {
+  if (
+      !titleSearch ||
+      !publisherFilter ||
+      !clearFiltersButton ||
+      !resultCount ||
+      !emptyState ||
+      !emptyStateMessage
+  ) {
       throw new Error('The game filter controls could not be initialized.');
   }
 
@@ -144,18 +164,21 @@ const publishers = [...publishersById.values()].sort((a, b) => a.name.localeComp
           .filter((checkbox) => checkbox.checked)
           .map((checkbox) => Number(checkbox.value));
       const selectedPublisherId = publisherFilter.value;
+      const searchTerm = titleSearch.value.trim().toLowerCase();
       let visibleCount = 0;
 
       for (const gameCard of gameCards) {
           const categoryId = gameCard.dataset.gameCategoryId;
           const publisherId = gameCard.dataset.gamePublisherId;
+          const title = gameCard.dataset.gameTitle?.toLowerCase() ?? '';
+          const matchesTitle = searchTerm === '' || title.includes(searchTerm);
           const matchesCategory =
         selectedCategoryIds.length === 0 ||
         (categoryId !== undefined && selectedCategoryIds.includes(Number(categoryId)));
           const matchesPublisher =
         selectedPublisherId === '' || publisherId === selectedPublisherId;
 
-          gameCard.hidden = !(matchesCategory && matchesPublisher);
+          gameCard.hidden = !(matchesTitle && matchesCategory && matchesPublisher);
           if (!gameCard.hidden) {
               visibleCount += 1;
           }
@@ -168,9 +191,10 @@ const publishers = [...publishersById.values()].sort((a, b) => a.name.localeComp
           ? 'No games available at the moment.'
           : 'No games match the selected filters.';
       clearFiltersButton.disabled =
-      selectedCategoryIds.length === 0 && selectedPublisherId === '';
+      searchTerm === '' && selectedCategoryIds.length === 0 && selectedPublisherId === '';
   };
 
+  titleSearch.addEventListener('input', updateGameResults);
   for (const checkbox of categoryCheckboxes) {
       checkbox.addEventListener('change', updateGameResults);
   }
@@ -179,6 +203,7 @@ const publishers = [...publishersById.values()].sort((a, b) => a.name.localeComp
       for (const checkbox of categoryCheckboxes) {
           checkbox.checked = false;
       }
+      titleSearch.value = '';
       publisherFilter.value = '';
       updateGameResults();
   });
