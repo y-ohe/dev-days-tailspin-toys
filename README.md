@@ -31,7 +31,7 @@
 > [!NOTE]
 > * **設定適用済み**: YAML や MCP 等の既知の初期設定・修正はあらかじめ適用されています（参加者による事前パッチ適用は不要です）。
 > * **演習範囲**: カスタム指示の更新、Canvas などの演習の完成コードは含まれていません（演習の中で実装します）。
-> * **ゲーム検索**: ホームページではカテゴリ（複数選択可）と出版社でゲームを絞り込めます。複数カテゴリはOR条件、出版社との組み合わせはAND条件です。
+> * **ゲーム検索**: ホームページではタイトル（大文字小文字を区別しない部分一致）、カテゴリ（複数選択可）、出版社でゲームを絞り込めます。検索・出版社はカテゴリ条件とANDで組み合わせ、複数カテゴリ間はOR条件です。
 > * **星評価**: ゲームカードには5点満点の星評価を表示し、未評価のゲームには「No rating yet」と表示します。
 
 ---
@@ -55,7 +55,7 @@ Tailspin Toys is a crowdfunding platform for games with a developer theme. The p
 - **Vitest** — unit tests for the data layer and pure transforms.
 - **Playwright** — end-to-end tests run against static builds backed by isolated temporary databases; filter no-match cases use a separate fixture CSV.
 - **Game ratings** — game cards show the five-point star rating; games without a rating show “No rating yet.”
-- **Game filters** — the home page filters prerendered games immediately by one or more categories (OR) and an optional publisher (AND).
+- **Game filters** — the home page filters prerendered games immediately by a case-insensitive partial title search, one or more categories (OR), and an optional publisher (AND with the other criteria).
 
 The database is migrated and seeded automatically before `dev`/`build` (via the `predev`/`prebuild` npm scripts) and is written to the gitignored `tailspin.db` file.
 
